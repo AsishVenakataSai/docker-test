@@ -1,0 +1,10 @@
+version: '2'
+services:
+    docker-test:
+        container_name: dockertest
+        build:
+            context: target/demo-0.0.1-SNAPSHOT.jar
+            dockerfile: Dockerfile
+        image: dockertest:latest
+        ports: 
+            - 8080:8080
