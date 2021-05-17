@@ -42,4 +42,14 @@ jobs:
          
       - name: Step 7 - Build the Docker image
         run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)   
+
+      - name: Step 8 - Upload image to ECR
+        uses: appleboy/docker-ecr-action@master
+        with:
+          access_key: ASIA27Z34IUCA3VWD6UC
+          secret_key: mGS597qKtVLlwl9/Sh3sj8Vv0DMl2Hd3gZIiCcfq
+          repo: docker-test
+          region: ap-south-1
+          registry: 755502957828.dkr.ecr.ap-south-1.amazonaws.com
+
           
