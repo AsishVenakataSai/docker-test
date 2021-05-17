@@ -4,7 +4,7 @@
 clone:
      mkdir test
      cd test
-     docker clone https://github.com/AsishVenakataSai/docker-test.git 
+     git clone https://github.com/AsishVenakataSai/docker-test.git 
        
 .PHONY: clean
 clean:
