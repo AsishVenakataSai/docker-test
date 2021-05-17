@@ -33,6 +33,7 @@ jobs:
           ls -la
       - name: Clone
         run: |
+          cd api
           ls -la
           make clone
       - name: Build
