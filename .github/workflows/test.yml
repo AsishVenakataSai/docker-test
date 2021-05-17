@@ -30,11 +30,13 @@ jobs:
       - name: Test
         run: |
           cd api
-          ls -ls
-          make clone
-          make build
-          make clean
-      
+          ls -la
+      - name: Clone
+        run: make clone
+      - name: Build
+        run: make build
+      - name: Clean
+        run: make clean
       #- name: Step 4 - Build with Maven
       #  run: mvn -B package --file pom.xml 
       - name: Install pack CLI via apt. See https://buildpacks.io/docs/tools/pack/#pack-cli
