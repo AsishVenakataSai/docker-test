@@ -36,10 +36,8 @@ jobs:
           cd api
           ls -la
           make clone
-      - name: Build
-        run: make build
-      - name: Clean
-        run: make clean
+          make build
+          make clean
       #- name: Step 4 - Build with Maven
       #  run: mvn -B package --file pom.xml 
       - name: Install pack CLI via apt. See https://buildpacks.io/docs/tools/pack/#pack-cli
