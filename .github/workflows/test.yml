@@ -35,15 +35,14 @@ jobs:
       - name: Check out my other private repo
         uses: actions/checkout@master
         with:
-          repository: AsishVenakataSai/docker-test
+          repository: AsishVenakataSai/Docker-Test-With-Dependent-Jar
           token: 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   
       - name: Clone
         run: |
-          cd api
           ls -la
-          make clone
-          make build
-          make clean
+        #  make clone
+        #  make build
+        #  make clean
       #- name: Step 4 - Build with Maven
       #  run: mvn -B package --file pom.xml 
       - name: Install pack CLI via apt. See https://buildpacks.io/docs/tools/pack/#pack-cli
