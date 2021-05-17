@@ -27,8 +27,8 @@ jobs:
           cd ~/.m2
           ls -la
       
-      - name: Step 4 - Build with Maven
-        run: mvn -B package --file pom.xml 
+      #- name: Step 4 - Build with Maven
+      #  run: mvn -B package --file pom.xml 
           
       - name: Step 5 - Set up a cache for Maven
         uses: actions/cache@v2
