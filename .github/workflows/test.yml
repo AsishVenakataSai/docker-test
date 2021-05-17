@@ -32,7 +32,9 @@ jobs:
           cd api
           ls -la
       - name: Clone
-        run: make clone
+        run: |
+          ls -la
+          make clone
       - name: Build
         run: make build
       - name: Clean
