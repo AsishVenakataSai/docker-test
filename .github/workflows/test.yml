@@ -40,8 +40,8 @@ jobs:
       - name: Step 6 - Build with Maven using cache
         run: mvn -B package --file pom.xml   
          
-      - name: Step 7 - Build the Docker image
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)   
+      #- name: Step 7 - Build the Docker image
+      #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)   
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -58,7 +58,7 @@ jobs:
       - name: Build, tag, and push image to amazon ECR
         env:
           ECR_REGISTRY: 755502957828.dkr.ecr.ap-south-1.amazonaws.com
-          ECR_REPOSITORY: docker-test
+          ECR_REPOSITORY: hello-world
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
