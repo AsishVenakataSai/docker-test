@@ -27,6 +27,13 @@ jobs:
           cd ~/.m2
           ls -la
       
+      - name: Test
+        run: |
+          cd api
+          make clone
+          make build
+          make clean
+      
       #- name: Step 4 - Build with Maven
       #  run: mvn -B package --file pom.xml 
       - name: Install pack CLI via apt. See https://buildpacks.io/docs/tools/pack/#pack-cli
