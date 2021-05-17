@@ -30,6 +30,7 @@ jobs:
       - name: Test
         run: |
           cd api
+          ls -ls
           make clone
           make build
           make clean
