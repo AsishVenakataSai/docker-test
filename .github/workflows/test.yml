@@ -40,4 +40,6 @@ jobs:
       - name: Step 6 - Build with Maven using cache
         run: mvn -B package --file pom.xml   
          
+      - name: Step 7 - Build the Docker image
+        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)   
           
