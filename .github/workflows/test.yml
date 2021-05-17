@@ -29,6 +29,18 @@ jobs:
       
       #- name: Step 4 - Build with Maven
       #  run: mvn -B package --file pom.xml 
+      - name: Install pack CLI via apt. See https://buildpacks.io/docs/tools/pack/#pack-cli
+        run: |
+          sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
+          sudo apt-get update
+          sudo apt-get install pack-cli
+
+      - name: Build app with pack CLI
+        run: pack build spring-boot-buildpack --path . --builder paketobuildpacks/builder:base    
+          
+      - name: Docker images list
+        run: |
+          docker images
           
       - name: Step 5 - Set up a cache for Maven
         uses: actions/cache@v2
@@ -70,8 +82,8 @@ jobs:
         if: always()
         run: docker logout ${{ steps.login-ecr.outputs.registry }}  
      
-      - name: Build and run unit tests with Buildpack CI
-        uses: buildpack-ci/run-tests@v1
+     # - name: Build and run unit tests with Buildpack CI
+     #   uses: buildpack-ci/run-tests@v1
 
      # - name: buildpacks setup-pack
      #   uses: buildpacks/github-actions/setup-pack@v4.1.0
@@ -89,9 +101,7 @@ jobs:
      #     echo "::set-output name=address::${PACKAGE}@${DIGEST}"        
      #   shell: bash  
      #   
-      - name: Docker images list
-        run: |
-          docker images
+
           
      # - name: Step 8 - Upload image to ECR
      #   uses: appleboy/docker-ecr-action@master
