@@ -31,6 +31,12 @@ jobs:
         run: |
           cd api
           ls -la
+          
+      - name: Check out my other private repo
+        uses: actions/checkout@master
+        with:
+          repository: AsishVenakataSai/docker-test
+          token: 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   
       - name: Clone
         run: |
           cd api
