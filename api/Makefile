@@ -2,13 +2,12 @@
 
 .PHONY: clone
 clone:
-        mkdir test
+        mkdir test      
         cd test
         git clone https://github.com/AsishVenakataSai/docker-test.git 
        
 .PHONY: clean
 clean:
-        cd ..
         rm -f test
    
 .PHONY: build
