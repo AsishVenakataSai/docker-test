@@ -1,3 +1,3 @@
 .PHONY: clone
-clone:  
-        ls
+clone:
+	ls
