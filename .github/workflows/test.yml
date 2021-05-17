@@ -22,9 +22,18 @@ jobs:
           distribution: 'adopt'
       
       - name: Step 3 - Get Info
-        run: echo Hello
+        run: |
+          echo Hello
+          cd ~/.m2
+          ls -la
       
       - name: Step 4 - Build with Maven
         run: mvn -B package --file pom.xml 
           
+      - name: Step 5 - Set up a cache for Maven
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runnner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
           
