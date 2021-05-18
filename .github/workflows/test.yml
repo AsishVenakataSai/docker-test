@@ -25,6 +25,7 @@ jobs:
       - name: Step 3 - Get Info
         run: |
           project_dir=$(pwd)
+          mkdir TEST
           echo Hello
           cd ~/.m2
           ls -la
