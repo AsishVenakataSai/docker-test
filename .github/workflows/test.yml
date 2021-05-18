@@ -27,6 +27,8 @@ jobs:
           echo Hello
           cd ~/.m2
           ls -la
+          cd ~
+          ls -la
       
       - name: populate previous jar
         run: cp  ~/lib/*.jar ~/.m2
