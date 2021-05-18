@@ -39,12 +39,13 @@ jobs:
           token: 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   
       - name: Clone
         run: |
-          ls -la
-          ls ..
-          cd ../docker-test
-          ls
-          cd api
-          make build
+           tree -f
+        #  ls -la
+        #  ls ..
+        #  cd ../docker-test
+        #  ls
+        #  cd api
+        #  make build
         #  ls ..
         #  ls .git
         #  make clone
