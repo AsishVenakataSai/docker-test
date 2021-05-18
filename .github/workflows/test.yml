@@ -40,7 +40,7 @@ jobs:
       - name: Clone
         run: |
           ls -la
-          ls .
+          ls ..
           cd docker-test
           ls
           cd api
