@@ -24,15 +24,13 @@ jobs:
      
       - name: Step 3 - Get Info
         run: |
-          pwd
+          project_dir=$(pwd)
           echo Hello
           cd ~/.m2
           ls -la
-          cd ~
-          ls -la
       
       - name: populate previous jar
-        run: cp  ~/lib/*.jar ~/.m2
+        run: cp  project_dir/lib/*.jar ~/.m2
       
       - name: clone test
         run: |
