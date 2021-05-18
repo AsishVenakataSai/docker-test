@@ -34,7 +34,8 @@ jobs:
       - name: Check out my other private repo
         uses: actions/checkout@master
         with:
-          repository: AsishVenakataSai/Docker-Test-With-Dependent-Jar
+          repository: https://github.com/AsishVenakataSai/Test
+          #AsishVenakataSai/Docker-Test-With-Dependent-Jar
           token: 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   
       - name: Clone
         run: |
