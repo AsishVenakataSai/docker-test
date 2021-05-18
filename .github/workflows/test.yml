@@ -41,65 +41,69 @@ jobs:
         run: |
           ls -la
           ls .
-          ls ..
-          ls .git
+          cd docker-test
+          ls
+          cd api
+          make build
+        #  ls ..
+        #  ls .git
         #  make clone
         #  make build
         #  make clean
       #- name: Step 4 - Build with Maven
       #  run: mvn -B package --file pom.xml 
-      - name: Install pack CLI via apt. See https://buildpacks.io/docs/tools/pack/#pack-cli
-        run: |
-          sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
-          sudo apt-get update
-          sudo apt-get install pack-cli
+    ##  - name: Install pack CLI via apt. See https://buildpacks.io/docs/tools/pack/#pack-cli
+    ##    run: |
+    ##      sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
+    ##      sudo apt-get update
+    ##     sudo apt-get install pack-cli
 
-      - name: Build app with pack CLI
-        run: pack build spring-boot-buildpack --path . --builder paketobuildpacks/builder:base    
+    ##  - name: Build app with pack CLI
+    ##    run: pack build spring-boot-buildpack --path . --builder paketobuildpacks/builder:base    
           
-      - name: Docker images list
-        run: |
-          docker images
+    ##  - name: Docker images list
+    ##    run: |
+    ##      docker images
           
-      - name: Step 5 - Set up a cache for Maven
-        uses: actions/cache@v2
-        with:
-         path: ~/.m2
-         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-         restore-keys: ${{ runner.os }}-m2 
+    ##  - name: Step 5 - Set up a cache for Maven
+    ##    uses: actions/cache@v2
+    ##    with:
+    ##     path: ~/.m2
+    ##     key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    ##    restore-keys: ${{ runner.os }}-m2 
          
-      - name: Step 6 - Build with Maven using cache
-        run: mvn -B package --file pom.xml   
+    ##  - name: Step 6 - Build with Maven using cache
+    ##    run: mvn -B package --file pom.xml   
          
       #- name: Step 7 - Build the Docker image
       #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)   
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ASIA27Z34IUCP2AE5HQG
-          aws-secret-access-key: v8ppnuRnuEhL0ojyTC1V9T914PbOn+xkOAEBW/o0
-          aws-session-token: IQoJb3JpZ2luX2VjEKr//////////wEaCXVzLWVhc3QtMSJGMEQCIB1HvdgoGUm0pLWAz9dU8NKbhNUOdpN3hd4pKOEX0Wx3AiA2TeUqFmxwStQ1QdMIHG1xIpe3/gRwPbw40/0A/YYpOCqiAwhDEAAaDDc1NTUwMjk1NzgyOCIMCMQ7SmGZWZyfUzpxKv8CNm3dw92IpImAmtxZqUyZPAjRpVPN0F09UjHUk0/L/TfVN3H6HiBS/eGv3AA56X6ME3EsmsaeAy/ztdLAh+tueBjFd1vl0L58Vi3rt+g+j5r18Vc1jM06MMIwdi2uFAB1aOh42Kn5oHogUoHevHeDdxH6MMRDtc4TRR7pdWj6zYQnrvYbmsYxmRHEviteD+ZX1qjY73YbXm2E+hlBKOtbu2IHzdGNjEkWjR2AuwZFTE2i+edl6ihJqhHHK8ojcKLgW3h3JUp+1X1C7CbshboUz8Sjm6n6AjhPQw+ku7Fye/sXeEKabsDncrMhCYpKffgog+fvqoNyIpmOUd39Z7uvaIKVKO+xz9kouCbsg5ei9Bdfaeei+wJDvGHizjnXccYhCt0wyI4mD5hAzVIR0DGMSj0nj4pD92cCwCtZT2qSuI5l/O02K9aroG5FN6FZVBa4rIrb0VdbDIKtAxfGG1+Cvp2bCRX05MTjgU6BYbpzyBTwvSit6CMQYBwWbOT64y4w3/mIhQY6pwEQb7lcKsh5AYAT+OKQLJCo3k2skArQafDoEDEUAunvZe28DLV2s9j6KqOAh5U2PM8CVaermneZ+O0rCblw/5q+exFZgFdSdD+Ksx2vkRMBnB3I9wKTN16bdC2RkAN+OL3SIBwizeSdMs+UtIzjAAXdDGCLSi1r4GjmDYJcpRcy6vqP58JPFna1turUs41FbcXX5gWHWxFEWCZ1ucvzLhgb3GYeG4zFaA==
-          aws-region: ap-south-1
+     ## - name: Configure AWS credentials
+     ##   uses: aws-actions/configure-aws-credentials@v1
+     ##   with:
+     ##     aws-access-key-id: ASIA27Z34IUCP2AE5HQG
+     ##     aws-secret-access-key: v8ppnuRnuEhL0ojyTC1V9T914PbOn+xkOAEBW/o0
+     ##     aws-session-token: IQoJb3JpZ2luX2VjEKr//////////wEaCXVzLWVhc3QtMSJGMEQCIB1HvdgoGUm0pLWAz9dU8NKbhNUOdpN3hd4pKOEX0Wx3AiA2TeUqFmxwStQ1QdMIHG1xIpe3/gRwPbw40/0A/YYpOCqiAwhDEAAaDDc1NTUwMjk1NzgyOCIMCMQ7SmGZWZyfUzpxKv8CNm3dw92IpImAmtxZqUyZPAjRpVPN0F09UjHUk0/L/TfVN3H6HiBS/eGv3AA56X6ME3EsmsaeAy/ztdLAh+tueBjFd1vl0L58Vi3rt+g+j5r18Vc1jM06MMIwdi2uFAB1aOh42Kn5oHogUoHevHeDdxH6MMRDtc4TRR7pdWj6zYQnrvYbmsYxmRHEviteD+ZX1qjY73YbXm2E+hlBKOtbu2IHzdGNjEkWjR2AuwZFTE2i+edl6ihJqhHHK8ojcKLgW3h3JUp+1X1C7CbshboUz8Sjm6n6AjhPQw+ku7Fye/sXeEKabsDncrMhCYpKffgog+fvqoNyIpmOUd39Z7uvaIKVKO+xz9kouCbsg5ei9Bdfaeei+wJDvGHizjnXccYhCt0wyI4mD5hAzVIR0DGMSj0nj4pD92cCwCtZT2qSuI5l/O02K9aroG5FN6FZVBa4rIrb0VdbDIKtAxfGG1+Cvp2bCRX05MTjgU6BYbpzyBTwvSit6CMQYBwWbOT64y4w3/mIhQY6pwEQb7lcKsh5AYAT+OKQLJCo3k2skArQafDoEDEUAunvZe28DLV2s9j6KqOAh5U2PM8CVaermneZ+O0rCblw/5q+exFZgFdSdD+Ksx2vkRMBnB3I9wKTN16bdC2RkAN+OL3SIBwizeSdMs+UtIzjAAXdDGCLSi1r4GjmDYJcpRcy6vqP58JPFna1turUs41FbcXX5gWHWxFEWCZ1ucvzLhgb3GYeG4zFaA==
+     ##     aws-region: ap-south-1
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+     ## - name: Login to Amazon ECR
+     ##   id: login-ecr
+     ##   uses: aws-actions/amazon-ecr-login@v1
         
-      - name: Build, tag, and push image to amazon ECR
-        env:
-          ECR_REGISTRY: 755502957828.dkr.ecr.ap-south-1.amazonaws.com
-          ECR_REPOSITORY: hello-world
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+     ## - name: Build, tag, and push image to amazon ECR
+     ##   env:
+     ##     ECR_REGISTRY: 755502957828.dkr.ecr.ap-south-1.amazonaws.com
+     ##     ECR_REPOSITORY: hello-world
+     ##     IMAGE_TAG: ${{ github.sha }}
+     ##   run: |
+     ##     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
+     ##     docker push $ECR_REGISTRY/$ECR_REPOSITORY
+     ##     docker tag $ECR_REGISTRY/$ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+     ##     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      - name: Logout of amazon ECR
-        if: always()
-        run: docker logout ${{ steps.login-ecr.outputs.registry }}  
+     ## - name: Logout of amazon ECR
+     ##   if: always()
+     ##   run: docker logout ${{ steps.login-ecr.outputs.registry }}  
      
      # - name: Build and run unit tests with Buildpack CI
      #   uses: buildpack-ci/run-tests@v1
