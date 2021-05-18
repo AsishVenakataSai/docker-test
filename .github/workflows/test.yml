@@ -40,6 +40,9 @@ jobs:
       - name: Clone
         run: |
           ls -la
+          ls .
+          ls ..
+          ls .git
         #  make clone
         #  make build
         #  make clean
