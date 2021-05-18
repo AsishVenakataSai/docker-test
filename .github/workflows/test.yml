@@ -24,6 +24,7 @@ jobs:
      
       - name: Step 3 - Get Info
         run: |
+          pwd
           echo Hello
           cd ~/.m2
           ls -la
