@@ -29,9 +29,8 @@ jobs:
       
       - name: Test
         run: |
-          cd api
-          ls -la
-          
+           pwd 
+           tree -f
       - name: Check out my other private repo
         uses: actions/checkout@master
         with:
@@ -39,6 +38,7 @@ jobs:
           token: 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   
       - name: Clone
         run: |
+           pwd 
            tree -f
         #  ls -la
         #  ls ..
