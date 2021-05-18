@@ -1,14 +1,17 @@
-.PHONY: clone
-clone:
-	ls
-	mkdir test
-	cd test
-	git clone https://github.com/AsishVenakataSai/docker-test.git
-.PHONY: clean
-clean:
-	ls
-	rm -rf test
+.PHONY: configure
+configure:
+	git config --global user.name $(USERNAME)
+	git config --global user.email $(MAILID)
 .PHONY: build
 build:
-	ls
+	mkdir TEST
+	cd ~/TEST
+	mkdir $(PROJECT)
+	git checkout $(BRANCH)
+	cd logical-model
 	mvn -B package --file pom.xml
+.PHONY: copy
+copy:
+	cp ~/target/*.jar ~/lib/$(PROJECT)
+	git add lib
+	git commit -m "adding updated jar"
