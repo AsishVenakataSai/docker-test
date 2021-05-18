@@ -41,7 +41,7 @@ jobs:
         run: |
           ls -la
           ls ..
-          cd docker-test
+          cd ../docker-test
           ls
           cd api
           make build
