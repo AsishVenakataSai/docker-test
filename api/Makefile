@@ -5,7 +5,7 @@ configure:
 .PHONY: build
 build:
 	mkdir TEST
-	cd ~/TEST
+	cd TEST
 	mkdir $(PROJECT)
 	http://10.10.1.37/fractal/nsl-common-services.git
 	git checkout $(BRANCH)
