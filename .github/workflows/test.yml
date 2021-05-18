@@ -20,12 +20,25 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      
+     
+     
       - name: Step 3 - Get Info
         run: |
           echo Hello
           cd ~/.m2
           ls -la
+      
+      - name: populate previous jar
+        run: cp  ~/lib/*.jar ~/.m2
+      
+      - name: clone test
+        run: |
+           cd api
+           mkdir test
+           cd test
+           make configure USERNAME=asishvenkatasai MAILID=ashish.kannekanti@nslhub.com
+           make build BRANCH=developer PROJECT=${PWD##*/}        
+           make copy PROJECT=${PWD##*/}
       
       - name: Test
         run: |
