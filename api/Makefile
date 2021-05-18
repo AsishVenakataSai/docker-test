@@ -7,6 +7,7 @@ build:
 	mkdir TEST
 	cd ~/TEST
 	mkdir $(PROJECT)
+	http://10.10.1.37/fractal/nsl-common-services.git
 	git checkout $(BRANCH)
 	cd logical-model
 	mvn -B package --file pom.xml
