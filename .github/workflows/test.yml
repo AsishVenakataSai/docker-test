@@ -29,8 +29,8 @@ jobs:
           cd ~/.m2
           ls -la
       
-      - name: populate previous jar
-        run: cp  $project_dir/lib/*.jar ~/.m2
+     # - name: populate previous jar
+     #   run: cp  $project_dir/lib/*.jar ~/.m2
       
       - name: clone test
         run: |
