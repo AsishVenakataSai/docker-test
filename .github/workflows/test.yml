@@ -36,8 +36,6 @@ jobs:
         run: |
            ls -la
            cd api
-           mkdir test
-           cd test
            make configure USERNAME=asishvenkatasai MAILID=ashish.kannekanti@nslhub.com
            make build BRANCH=developer PROJECT=${PWD##*/}        
            make copy PROJECT=${PWD##*/}
