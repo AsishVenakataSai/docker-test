@@ -29,6 +29,7 @@ jobs:
       
       - name: Test
         run: |
+           mkdir test
            pwd 
            tree -f
       - name: Check out my other private repo
@@ -36,7 +37,8 @@ jobs:
         with:
           repository: AsishVenakataSai/Test
           #AsishVenakataSai/Docker-Test-With-Dependent-Jar
-          token: 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   
+          token: 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
+          path: $GITHUB_WORKSPACE/test
       - name: Clone
         run: |
            pwd 
