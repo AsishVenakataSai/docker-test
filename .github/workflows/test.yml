@@ -29,9 +29,21 @@ jobs:
           echo Hello
           cd ~/.m2
           ls -la
-      
-     # - name: populate previous jar
-     #   run: cp  $project_dir/lib/*.jar ~/.m2
+          
+      - name: Install packcli
+        run: |
+            sudo add-apt-repository ppa:cncf-buildpacks/pack-cli 
+            sudo apt-get update
+            sudo apt-get install pack-cli
+            
+      - name: Buildpack download    
+        run: git clone https://github.com/GoogleCloudPlatform/buildpack-samples.git
+
+      - name: Build and image with builpack
+        run: |
+            cd api/iam/nsl-logical-model/nsl-logical-model
+            pack build buildpacks-test:latest --builder gcr.io/buildpacks/builder:v1
+            docker images
       
       - name: clone test
         run: |
@@ -69,6 +81,11 @@ jobs:
         #  make clone
         #  make build
         #  make clean
+      
+            
+     # - name: populate previous jar
+     #   run: cp  $project_dir/lib/*.jar ~/.m2
+        
       #- name: Step 4 - Build with Maven
       #  run: mvn -B package --file pom.xml 
     ##  - name: Install pack CLI via apt. See https://buildpacks.io/docs/tools/pack/#pack-cli
