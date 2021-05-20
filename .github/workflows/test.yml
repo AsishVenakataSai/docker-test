@@ -41,7 +41,6 @@ jobs:
 
       - name: Build and image with builpack
         run: |
-            cd api/iam/nsl-logical-model/nsl-logical-model
             pack build buildpacks-test:latest --builder gcr.io/buildpacks/builder:v1
             docker images
       
