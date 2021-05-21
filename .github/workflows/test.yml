@@ -29,6 +29,14 @@ jobs:
           echo Hello
           cd ~/.m2
           ls -la
+      
+      - name: Set up a cache for Maven
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2 
+         
          
       - name: configuring settings.xml 
         run: |
@@ -42,7 +50,7 @@ jobs:
       - name: maven build
         run: |
           mvn clean install 
-          echo"----------------------------------------------------------------------------------------------------------------------------------"
+          echo "----------------------------------------------------------------------------------------------------------------------------------"
           mvn deploy
 #            mvn install deploy -P github -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/asishvenkatasai/docker-test
 #      - name: Install packcli
