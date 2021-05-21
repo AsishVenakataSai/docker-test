@@ -29,46 +29,58 @@ jobs:
           echo Hello
           cd ~/.m2
           ls -la
-          
-      - name: Install packcli
+         
+      - name: configuring settings.xml 
         run: |
-            sudo add-apt-repository ppa:cncf-buildpacks/pack-cli 
-            sudo apt-get update
-            sudo apt-get install pack-cli
-            
-      - name: Buildpack download    
-        run: git clone https://github.com/GoogleCloudPlatform/buildpack-samples.git
-
-      - name: Build and image with builpack
+            cd ~/.m2
+            ls -la
+            cat settings.xml
+            sed -i 's#${env.GITHUB_ACTOR}#AsishVenkataSai#' settings.xml
+            sed -i 's#${env.GITHUB_TOKEN}#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#' settings.xml
+            sed -i 's#<servers>#<activeProfiles><activeProfile>github</activeProfile></activeProfiles><profiles><profile><repositories><repository><id>github</id><url>https://maven.pkg.github.com/asishvenkatasai/*</url><snapshots><enabled>true</enabled></snapshots></repository></repositories></profile></profiles><servers>#' settings.xml
+            cat settings.xml  
+      - name: maven build
         run: |
-            pack build buildpacks-test:latest --builder gcr.io/buildpacks/builder:v1
-            docker images
+            mvn install deploy -P github -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/asishvenkatasai/docker-test
+#      - name: Install packcli
+#        run: |
+#            sudo add-apt-repository ppa:cncf-buildpacks/pack-cli 
+#            sudo apt-get update
+#            sudo apt-get install pack-cli
+#            
+#      - name: Buildpack download    
+#        run: git clone https://github.com/GoogleCloudPlatform/buildpack-samples.git
+#
+#      - name: Build and image with builpack
+#        run: |
+#            pack build buildpacks-test:latest --builder gcr.io/buildpacks/builder:v1
+#            docker images
       
-      - name: clone test
-        run: |
-           ls -la
-           cd api
-           make configure USERNAME=asishvenkatasai MAILID=ashish.kannekanti@nslhub.com
-           make build BRANCH=developer PROJECT=${PWD##*/}        
-           make copy PROJECT=${PWD##*/}
+#      - name: clone test
+#        run: |
+#           ls -la
+#           cd api
+#           make configure USERNAME=asishvenkatasai MAILID=ashish.kannekanti@nslhub.com
+#           make build BRANCH=developer PROJECT=${PWD##*/}        
+#           make copy PROJECT=${PWD##*/}
       
-      - name: Test
-        run: |
-           mkdir test
-           pwd 
-           tree -f
-      - name: Check out my other private repo
-        uses: actions/checkout@master
-        with:
-          repository: AsishVenakataSai/Test
-          ref: TEST
+#      - name: Test
+#        run: |
+#           mkdir test
+#          pwd 
+#           tree -f
+#      - name: Check out my other private repo
+#        uses: actions/checkout@master
+#        with:
+#         repository: AsishVenakataSai/Test
+#          ref: TEST
           #AsishVenakataSai/Docker-Test-With-Dependent-Jar
-          token: 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
-          path: $GITHUB_WORKSPACE/test
-      - name: Clone
-        run: |
-           pwd 
-           tree -f
+#          token: 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
+#          path: $GITHUB_WORKSPACE/test
+#      - name: Clone
+#        run: |
+#           pwd 
+#           tree -f
         #  ls -la
         #  ls ..
         #  cd ../docker-test
