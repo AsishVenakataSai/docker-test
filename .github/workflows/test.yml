@@ -32,6 +32,8 @@ jobs:
          
       - name: configuring settings.xml 
         run: |
+            cd ~/.m2
+            ls -la
             cat settings.xml
             sed -i 's#${env.GITHUB_ACTOR}#AsishVenkataSai#' settings.xml
             sed -i 's#${env.GITHUB_TOKEN}#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#' settings.xml
