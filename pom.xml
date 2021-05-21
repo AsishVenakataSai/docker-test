@@ -97,7 +97,7 @@
    <repository>
      <id>github</id>
      <name>GitHub OWNER Apache Maven Packages</name>
-     <url>https://maven.pkg.github.com/asishvenkatasai/docekr-test</url>
+     <url>https://maven.pkg.github.com/asishvenkatasai/docker-test</url>
    </repository>
 </distributionManagement>
 </project>
