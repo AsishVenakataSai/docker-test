@@ -43,9 +43,9 @@ jobs:
             cd ~/.m2
             ls -la
             cat settings.xml
+#            sed -i 's#<servers>#<activeProfiles><activeProfile>github</activeProfile></activeProfiles><profiles><profile><repositories><repository><id>github</id><url>https://maven.pkg.github.com/asishvenkatasai/docker-test</url><snapshots><enabled>true</enabled></snapshots></repository></repositories></profile></profiles><servers>#' settings.xml
 #            sed -i 's#${env.GITHUB_ACTOR}#AsishVenkataSai#' settings.xml
 #            sed -i 's#${env.GITHUB_TOKEN}#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#' settings.xml
-#            sed -i 's#<servers>#<activeProfiles><activeProfile>github</activeProfile></activeProfiles><profiles><profile><repositories><repository><id>github</id><url>https://maven.pkg.github.com/asishvenkatasai/docker-test</url><snapshots><enabled>true</enabled></snapshots></repository></repositories></profile></profiles><servers>#' settings.xml
 #            cat settings.xml  
       - name: maven build
         run: |
