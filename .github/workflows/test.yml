@@ -41,7 +41,8 @@ jobs:
             cat settings.xml  
       - name: maven build
         run: |
-            mvn install deploy -P github -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/asishvenkatasai/docker-test
+          mvn deploy
+#            mvn install deploy -P github -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/asishvenkatasai/docker-test
 #      - name: Install packcli
 #        run: |
 #            sudo add-apt-repository ppa:cncf-buildpacks/pack-cli 
