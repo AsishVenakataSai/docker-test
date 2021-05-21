@@ -81,6 +81,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	
 	<pluginRepositories>
 		<pluginRepository>
 			<id>spring-releases</id>
@@ -92,4 +93,11 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+	<distributionManagement>
+   <repository>
+     <id>github</id>
+     <name>GitHub OWNER Apache Maven Packages</name>
+     <url>https://maven.pkg.github.com/asishvenkatasai/docekr-test</url>
+   </repository>
+</distributionManagement>
 </project>
