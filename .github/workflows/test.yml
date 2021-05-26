@@ -29,7 +29,7 @@ jobs:
       
       - name: Buildpacks Build
         run: | 
-          pack build api/nsl-iam:latest --builder gcr.io/paketo-buildpacks/maven:latest --io.buildpacks.builder.metadata
+          pack build api/nsl-iam:latest --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/maven:latest
      
 #      - name: Step 3 - Get Info
 #        run: |
