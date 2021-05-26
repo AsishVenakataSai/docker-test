@@ -24,7 +24,13 @@ jobs:
       - name: Buildpacks Build
         run: | 
           pack build api/nsl-iam:latest --builder paketobuildpacks/builder:base
-         
+      
+      
+      - name: Install packcli
+        run: |
+            sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
+            sudo apt-get update
+            sudo apt-get install pack-cli
      
 #      - name: Step 3 - Get Info
 #        run: |
