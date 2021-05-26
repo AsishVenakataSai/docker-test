@@ -19,18 +19,17 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'adopt'
-     
-      - name: Buildpacks Build
-        run: | 
-          pack build api/nsl-iam:latest --builder paketobuildpacks/builder:base
-      
+          distribution: 'adopt'      
       
       - name: Install packcli
         run: |
             sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
             sudo apt-get update
             sudo apt-get install pack-cli
+      
+      - name: Buildpacks Build
+        run: | 
+          pack build api/nsl-iam:latest --builder paketobuildpacks/builder:base
      
 #      - name: Step 3 - Get Info
 #        run: |
