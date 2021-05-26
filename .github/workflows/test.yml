@@ -21,38 +21,42 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
      
+      - name: Buildpacks Build
+        run: | 
+          pack build api/nsl-iam:latest --builder paketobuildpacks/builder:base
+         
      
-      - name: Step 3 - Get Info
-        run: |
-          project_dir=$(pwd)
-          mkdir TEST
-          echo Hello
-          cd ~/.m2
-          ls -la
+#      - name: Step 3 - Get Info
+#        run: |
+#          project_dir=$(pwd)
+#          mkdir TEST
+#          echo Hello
+#          cd ~/.m2
+#          ls -la
       
-      - name: Set up a cache for Maven
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2 
+#      - name: Set up a cache for Maven
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-m2 
          
          
-      - name: configuring settings.xml 
-        run: |
-            cd ~/.m2
-            ls -la
-            cat settings.xml
-            sed -i 's#${env.GITHUB_ACTOR}#AsishVenkataSai#' settings.xml
-            sed -i 's#${env.GITHUB_TOKEN}#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#' settings.xml
+#      - name: configuring settings.xml 
+#        run: |
+#            cd ~/.m2
+#            ls -la
+#            cat settings.xml
+#            sed -i 's#${env.GITHUB_ACTOR}#AsishVenkataSai#' settings.xml
+#            sed -i 's#${env.GITHUB_TOKEN}#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#' settings.xml
 #            sed -i 's#<servers>#<activeProfiles><activeProfile>github</activeProfile></activeProfiles><profiles><profile><repositories><repository><id>github</id><url>https://maven.pkg.github.com/asishvenkatasai/docker-test</url><snapshots><enabled>true</enabled></snapshots></repository></repositories></profile></profiles><servers>#' settings.xml
 
 #            cat settings.xml  
-      - name: maven build
-        run: |
-          mvn clean install 
-          echo "----------------------------------------------------------------------------------------------------------------------------------"
-          mvn deploy
+#      - name: maven build
+#        run: |
+#          mvn clean install 
+#          echo "----------------------------------------------------------------------------------------------------------------------------------"
+#          mvn deploy
 #            mvn install deploy -P github -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/asishvenkatasai/docker-test
 #      - name: Install packcli
 #        run: |
