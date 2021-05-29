@@ -18,18 +18,27 @@ jobs:
       - name: Step 2 - JDK SETUP
         uses: actions/setup-java@v2
         with:
-          java-version: '11'
+          java-version: '15'
           distribution: 'adopt'      
       
-      - name: Install packcli
-        run: |
-            sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
-            sudo apt-get update
-            sudo apt-get install pack-cli
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4
+        with:
+            maven-version: 3.8.1 
+#      - name: Install packcli
+#        run: |
+#            sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
+#            sudo apt-get update
+#            sudo apt-get install pack-cli
       
-      - name: Buildpacks Build
-        run: | 
-          pack build api/nsl-iam:latest --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/maven:latest
+      - name: Build wiht Jib
+        run : |
+          docker images
+          mvn compile com.google.cloud.tools:jib-maven-plugin:3.0.0:dockerBuild
+          docker images
+#      - name: Buildpacks Build
+#        run: | 
+#          pack build api/nsl-iam:latest --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/maven:latest
      
 #      - name: Step 3 - Get Info
 #        run: |
