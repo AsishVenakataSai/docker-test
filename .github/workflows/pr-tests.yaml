@@ -1,0 +1,56 @@
+
+name: Testing change 
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [ labeled,unlabeled ]
+
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Step 1 - MainBranch Checkout
+        uses: actions/checkout@v2
+     
+      - name: Step 2 - JDK SETUP
+        uses: actions/setup-java@v2
+        with:
+          java-version: '15'
+          distribution: 'adopt'      
+      
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4
+        with:
+            maven-version: 3.8.1 
+        
+      - name: Run Test
+        run: |
+          mvn test
+      
+      - name: remove existing label
+        if: 
+        
+      - uses: mshick/add-pr-comment@v1
+        if: always() && failure() && !${{ github.event.label.name == 'do-not-merge/hold' }}
+        with:
+          message: |
+            Maven Test Failed 
+            /hold
+          repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
+          allow-repeats: true
+          
+      - uses: mshick/add-pr-comment@v1
+        if: always() && success() && ${{ github.event.label.name == 'do-not-merge/hold' }}
+        with:
+          message: |
+            Maven Test Passes 
+            /remove-hold
+          repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
+          allow-repeats: true   
+          
+
+          
