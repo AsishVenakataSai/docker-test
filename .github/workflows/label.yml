@@ -17,6 +17,6 @@ jobs:
     steps:
       - uses: dessant/label-actions@v2
         with:
-          github-token: ${{ github.token }}
+          github-token: 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
           config-path: '.github/label-actions.yml'
           process-only: ''
