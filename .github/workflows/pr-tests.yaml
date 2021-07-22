@@ -28,9 +28,6 @@ jobs:
       - name: Run Test
         run: |
           mvn test
-      
-      - name: remove existing label
-        if: 
         
       - uses: mshick/add-pr-comment@v1
         if: always() && failure() && !${{ github.event.label.name == 'do-not-merge/hold' }}
