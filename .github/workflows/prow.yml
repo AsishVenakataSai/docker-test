@@ -7,6 +7,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs:
+      testjobs: ${{ steps.test-job.outputs.matrix }}
     steps:
       - uses: khan/pull-request-comment-trigger@master
         id: check
@@ -32,11 +34,26 @@ jobs:
         with:
             maven-version: 3.8.1     
       - name: Run Test 
+        id: matrix
         if: steps.check.outputs.triggered == 'true'
         run: |
+          echo "::set-output name=test-job::false"  
           mvn test
+          echo "::set-output name=test-job::true"  
+          
+          
+  test:
+    if: always()
+    needs: [deploy] 
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo-jobs
+        run: |
+          echo ${{ github.event.label.name }}
+          echo ${{ steps.test-job.outputs.matrix }}
+          
       - uses: mshick/add-pr-comment@v1
-        if: failure() && !${{ github.event.label.name == 'do-not-merge/hold' }} && ${{ steps.check.outputs.triggered == 'true' }}
+        if: ${{ github.event.label.name == 'do-not-merge/hold' }} && ${{ steps.test-job.outputs.matrix == 'true' }}
         with:
           message: |
             Maven Test Failed 
@@ -44,9 +61,18 @@ jobs:
           repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
           repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
           allow-repeats: true
+      
+      - uses: mshick/add-pr-comment@v1
+        if: ${{ github.event.label.name != 'do-not-merge/hold' }} && ${{ steps.test-job.outputs.matrix == 'true' }}
+        with:
+          message: |
+            Github actions Failed 
+          repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
+          allow-repeats: true
           
       - uses: mshick/add-pr-comment@v1
-        if: always() && success() && ${{ github.event.label.name == 'do-not-merge/hold' }} && ${{ steps.check.outputs.triggered == 'true' }}
+        if: ${{ github.event.label.name == 'do-not-merge/hold' }} && ${{ steps.test-job.outputs.matrix == 'true' }}
         with:
           message: |
             Maven Test Passes 
@@ -54,5 +80,14 @@ jobs:
           repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
           repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
           allow-repeats: true    
+          
+      - uses: mshick/add-pr-comment@v1
+        if: ${{ github.event.label.name != 'do-not-merge/hold' }} && ${{ steps.test-job.outputs.matrix == 'true' }}
+        with:
+          message: |
+            Github actions Test Passes 
+          repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
+          allow-repeats: true      
 
             
