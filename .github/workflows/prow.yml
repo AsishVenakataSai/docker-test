@@ -49,8 +49,8 @@ jobs:
     steps:
       - name: echo-jobs
         run: |
-          echo ${{ github.event.label.name }}
-          echo ${{ needs.deploy.outputs.matrix }}
+          echo ${{ github.event.label.name == 'do-not-merge/hold' }}
+          echo ${{ needs.deploy.outputs.matrix  == 'true' }}
           
       - uses: mshick/add-pr-comment@v1
         if: ${{ github.event.label.name == 'do-not-merge/hold' }} && ${{ steps.test-job.outputs.matrix == 'true' }}
