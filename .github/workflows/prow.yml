@@ -95,3 +95,5 @@ jobs:
         with:
           labels: |
             cherry-pick-approved
+    env:
+      github_token: '${{ secrets.NSLHB_TEST_TOKEN }}'        
