@@ -49,6 +49,7 @@ jobs:
     steps:
       - name: echo-jobs
         run: |
+          echo "testing"
           echo ${{ github.event.label.name == 'do-not-merge/hold' }}
           echo ${{ needs.deploy.outputs.matrix  == 'true' }}
           
