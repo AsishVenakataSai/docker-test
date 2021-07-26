@@ -92,9 +92,9 @@ jobs:
 
   cherry-pick:
     runs-on: ubuntu-latest  
+    if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/cherry-pick-approved')
     steps:
       - uses: actions-ecosystem/action-add-labels@v1
-        if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/cherry-pick-approved')
         with:
           labels: |
             cherry-pick-approved
@@ -103,16 +103,15 @@ jobs:
 
   github-action-labler:
     runs-on: ubuntu-latest
+    if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/remove-githubaction-restiction')
     steps:
       - uses: actions-ecosystem/action-add-labels@v1
-        if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/remove-githubaction-restiction')
         with:
           labels: |
             githubactions-approved
           github_token: '${{ secrets.NSLHB_TEST_TOKEN }}'
           
       - uses: actions-ecosystem/action-remove-labels@v1
-        if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/remove-githubaction-restiction')
         with:
           labels: |
             do-not-merge/githubaction-restiction
