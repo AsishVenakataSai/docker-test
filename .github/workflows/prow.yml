@@ -50,7 +50,7 @@ jobs:
           echo ${{ needs.deploy.outputs.test  == 'true' }}
           
       - uses: mshick/add-pr-comment@v1
-        if: ${{ github.event.label.name == 'do-not-merge/hold' &&  steps.test-job.outputs.matrix == 'true' }}
+        if: ${{ github.event.label.name == 'do-not-merge/hold' &&  needs.deploy.outputs.test  == 'true' }}
         with:
           message: |
             Maven Test Failed 
@@ -60,7 +60,7 @@ jobs:
           allow-repeats: true
       
       - uses: mshick/add-pr-comment@v1
-        if: ${{ github.event.label.name != 'do-not-merge/hold'  && steps.test-job.outputs.matrix == 'true' }}
+        if: ${{ github.event.label.name != 'do-not-merge/hold'  &&  needs.deploy.outputs.test  == 'true' }}
         with:
           message: |
             Github actions Failed 
@@ -69,7 +69,7 @@ jobs:
           allow-repeats: true
           
       - uses: mshick/add-pr-comment@v1
-        if: ${{ github.event.label.name == 'do-not-merge/hold'  &&  steps.test-job.outputs.matrix == 'true' }}
+        if: ${{ github.event.label.name == 'do-not-merge/hold'  &&  needs.deploy.outputs.test  == 'true' }}
         with:
           message: |
             Maven Test Passes 
@@ -79,7 +79,7 @@ jobs:
           allow-repeats: true    
           
       - uses: mshick/add-pr-comment@v1
-        if: ${{ github.event.label.name != 'do-not-merge/hold'  &&  steps.test-job.outputs.matrix == 'true' }}
+        if: ${{ github.event.label.name != 'do-not-merge/hold'  &&  needs.deploy.outputs.test  == 'true' }}
         with:
           message: |
             Github actions Test Passes 
@@ -87,4 +87,11 @@ jobs:
           repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
           allow-repeats: true      
 
-            
+  add_labels:
+    runs-on: ubuntu-latest
+    if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/cherry-pick-approved')
+    steps:
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: |
+            cherry-pick-approved
