@@ -5,18 +5,12 @@ on:
     types: [created, edited, deleted]
 
 jobs:
-  deploy:
+  test-job:
     runs-on: ubuntu-latest
     if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/ok-to-test') 
     outputs:
       test: ${{ steps.matrix.outputs.test_matrix }}
     steps:
-   #   - uses: khan/pull-request-comment-trigger@master
-   #     with:
-   #       trigger: '/ok-to-test'
-   #       reaction: rocket
-   #     env:
-   #       GITHUB_TOKEN: '${{ secrets.NSLHB_TEST_TOKEN }}'
       - name: Step 1 - MainBranch Checkout
         uses: actions/checkout@v2
      
@@ -39,61 +33,88 @@ jobs:
          
           
           
-  test:
-    needs: [deploy] 
+  githubaction-trigger-job:
+    needs: [test-job] 
     runs-on: ubuntu-latest
     steps:
       - name: echo-jobs
         run: |
           echo "testing"
           echo ${{ github.event.label.name == 'do-not-merge/hold' }}
-          echo ${{ needs.deploy.outputs.test  == 'true' }}
+          echo ${{ needs.test-job.outputs.test  == 'true' }}
           
       - uses: mshick/add-pr-comment@v1
-        if: ${{ github.event.label.name == 'do-not-merge/hold' &&  needs.deploy.outputs.test  == 'true' }}
+        if: ${{ needs.deploy.outputs.test  != 'true' }}
         with:
           message: |
             Maven Test Failed 
-            /hold
           repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
           repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
           allow-repeats: true
       
-      - uses: mshick/add-pr-comment@v1
-        if: ${{ github.event.label.name != 'do-not-merge/hold'  &&  needs.deploy.outputs.test  == 'true' }}
+      - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ needs.deploy.outputs.test  != 'true' }}
         with:
-          message: |
-            Github actions Failed 
-          repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
-          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
-          allow-repeats: true
+          labels: |
+            do-not-merge/githubaction-restiction
+          github_token: '${{ secrets.NSLHB_TEST_TOKEN }}'
+          
+      - uses: actions-ecosystem/action-remove-labels@v1
+        if: ${{ needs.deploy.outputs.test  != 'true' }}
+        with:
+          labels: |
+            do-not-merge/githubaction-restiction
+          github_token: '${{ secrets.NSLHB_TEST_TOKEN }}'    
+
           
       - uses: mshick/add-pr-comment@v1
-        if: ${{ github.event.label.name == 'do-not-merge/hold'  &&  needs.deploy.outputs.test  == 'true' }}
-        with:
-          message: |
-            Maven Test Passes 
-            /remove-hold
-          repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
-          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
-          allow-repeats: true    
-          
-      - uses: mshick/add-pr-comment@v1
-        if: ${{ github.event.label.name != 'do-not-merge/hold'  &&  needs.deploy.outputs.test  == 'true' }}
+        if: ${{ needs.deploy.outputs.test  == 'true' }}
         with:
           message: |
             Github actions Test Passes 
           repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
           repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
-          allow-repeats: true      
+          allow-repeats: true    
+      
+      - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ needs.deploy.outputs.test  == 'true' }}
+        with:
+          labels: |
+            githubactions-approved
+          github_token: '${{ secrets.NSLHB_TEST_TOKEN }}'
+          
+      - uses: actions-ecosystem/action-remove-labels@v1
+        if: ${{ needs.deploy.outputs.test  == 'true' }}
+        with:
+          labels: |
+            do-not-merge/githubaction-restiction
+          github_token: '${{ secrets.NSLHB_TEST_TOKEN }}'    
 
-  add_labels:
-    runs-on: ubuntu-latest
-    if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/cherry-pick-approved')
+  cherry-pick:
+    runs-on: ubuntu-latest  
     steps:
       - uses: actions-ecosystem/action-add-labels@v1
+        if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/cherry-pick-approved')
         with:
           labels: |
             cherry-pick-approved
           github_token: '${{ secrets.NSLHB_TEST_TOKEN }}'
+          
+
+  github-action-labler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions-ecosystem/action-add-labels@v1
+        if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/remove-githubaction-restiction')
+        with:
+          labels: |
+            githubactions-approved
+          github_token: '${{ secrets.NSLHB_TEST_TOKEN }}'
+          
+      - uses: actions-ecosystem/action-remove-labels@v1
+        if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/remove-githubaction-restiction')
+        with:
+          labels: |
+            do-not-merge/githubaction-restiction
+          github_token: '${{ secrets.NSLHB_TEST_TOKEN }}'  
       
