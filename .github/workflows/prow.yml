@@ -56,7 +56,7 @@ jobs:
         if: ${{ needs.deploy.outputs.test  != 'true' }}
         with:
           labels: |
-            do-not-merge/githubaction-restiction
+            githubaction-restiction
           github_token: '${{ secrets.NSLHB_TEST_TOKEN }}'
           
       - uses: actions-ecosystem/action-remove-labels@v1
