@@ -18,24 +18,20 @@ jobs:
    #     env:
    #       GITHUB_TOKEN: '${{ secrets.NSLHB_TEST_TOKEN }}'
       - name: Step 1 - MainBranch Checkout
-        if: steps.check.outputs.triggered == 'true'
         uses: actions/checkout@v2
      
       - name: Step 2 - JDK SETUP
-        if: steps.check.outputs.triggered == 'true'
         uses: actions/setup-java@v2
         with:
           java-version: '15'
           distribution: 'adopt'      
       
       - name: Set up Maven
-        if: steps.check.outputs.triggered == 'true'
         uses: stCarolas/setup-maven@v4
         with:
             maven-version: 3.8.1     
       - name: Run Test 
         id: matrix
-        if: steps.check.outputs.triggered == 'true'
         run: |
           echo "::set-output name=test_matrix::false"  
           mvn test         
