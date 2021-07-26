@@ -37,12 +37,12 @@ jobs:
         id: matrix
 #        if: steps.check.outputs.triggered == 'true'
         run: |
-          echo "::set-output name=test_matrix::false"  
-          mvn test
           echo "::set-output name=test_matrix::true"  
           echo ${{ steps.matrix.outputs.test_matrix == 'true' }}
           echo ${{ steps.matrix.outputs.test_matrix }}
           echo steps.matrix.outputs.test_matrix
+#          echo "::set-output name=test_matrix::false"  
+#          mvn test          
           
           
   test:
