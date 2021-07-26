@@ -8,10 +8,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     outputs:
-      test: ${{ steps.test-job.outputs.matrix }}
+      test: ${{ steps.matrix.outputs.test_matrix }}
     steps:
       - uses: khan/pull-request-comment-trigger@master
-        id: check
+        id: test
         with:
           trigger: '/ok-to-test'
           reaction: rocket
@@ -37,9 +37,9 @@ jobs:
         id: matrix
         if: steps.check.outputs.triggered == 'true'
         run: |
-          echo "::set-output name=test-job::false"  
+          echo "::set-output name=test_matrix::false"  
           mvn test
-          echo "::set-output name=test-job::true"  
+          echo "::set-output name=test_matrix::true"  
           
           
   test:
@@ -50,7 +50,7 @@ jobs:
         run: |
           echo "testing"
           echo ${{ github.event.label.name == 'do-not-merge/hold' }}
-          echo ${{ needs.deploy.outputs.matrix  == 'true' }}
+          echo ${{ needs.deploy.outputs.test  == 'true' }}
           
       - uses: mshick/add-pr-comment@v1
         if: ${{ github.event.label.name == 'do-not-merge/hold' &&  steps.test-job.outputs.matrix == 'true' }}
