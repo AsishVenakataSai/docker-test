@@ -8,7 +8,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     outputs:
-      testjobs: ${{ steps.test-job.outputs.matrix }}
+      test: ${{ steps.test-job.outputs.matrix }}
     steps:
       - uses: khan/pull-request-comment-trigger@master
         id: check
@@ -50,7 +50,7 @@ jobs:
       - name: echo-jobs
         run: |
           echo ${{ github.event.label.name }}
-          echo ${{ steps.test-job.outputs.matrix }}
+          echo ${{ needs.deploy.outputs.matrix }}
           
       - uses: mshick/add-pr-comment@v1
         if: ${{ github.event.label.name == 'do-not-merge/hold' }} && ${{ steps.test-job.outputs.matrix == 'true' }}
