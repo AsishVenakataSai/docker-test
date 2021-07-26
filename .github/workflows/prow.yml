@@ -1,0 +1,57 @@
+name: PROW-Test 
+
+on:
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: khan/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: '/ok-to-test'
+          reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.NSLHB_TEST_TOKEN }}'
+      - name: Step 1 - MainBranch Checkout
+        if: steps.check.outputs.triggered == 'true'
+        uses: actions/checkout@v2
+     
+      - name: Step 2 - JDK SETUP
+        if: steps.check.outputs.triggered == 'true'
+        uses: actions/setup-java@v2
+        with:
+          java-version: '15'
+          distribution: 'adopt'      
+      
+      - name: Set up Maven
+        if: steps.check.outputs.triggered == 'true'
+        uses: stCarolas/setup-maven@v4
+        with:
+            maven-version: 3.8.1     
+      - name: Run Test 
+        if: steps.check.outputs.triggered == 'true'
+        run: |
+          mvn test
+      - uses: mshick/add-pr-comment@v1
+        if: always() && failure() && !${{ github.event.label.name == 'do-not-merge/hold' }} && ${{ steps.check.outputs.triggered == 'true' }}
+        with:
+          message: |
+            Maven Test Failed 
+            /hold
+          repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
+          allow-repeats: true
+          
+      - uses: mshick/add-pr-comment@v1
+        if: always() && success() && ${{ github.event.label.name == 'do-not-merge/hold' }} && ${{ steps.check.outputs.triggered == 'true' }}
+        with:
+          message: |
+            Maven Test Passes 
+            /remove-hold
+          repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
+          allow-repeats: true    
+
+            
