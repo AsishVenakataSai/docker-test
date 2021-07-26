@@ -72,7 +72,7 @@ jobs:
           allow-repeats: true
           
       - uses: mshick/add-pr-comment@v1
-        if: ${{ github.event.label.name == 'do-not-merge/hold' }} && ${{ steps.test-job.outputs.matrix == 'true' }}
+        if: ${{ github.event.label.name == 'do-not-merge/hold'  &&  steps.test-job.outputs.matrix == 'true' }}
         with:
           message: |
             Maven Test Passes 
@@ -82,7 +82,7 @@ jobs:
           allow-repeats: true    
           
       - uses: mshick/add-pr-comment@v1
-        if: ${{ github.event.label.name != 'do-not-merge/hold' }} && ${{ steps.test-job.outputs.matrix == 'true' }}
+        if: ${{ github.event.label.name != 'do-not-merge/hold'  &&  steps.test-job.outputs.matrix == 'true' }}
         with:
           message: |
             Github actions Test Passes 
