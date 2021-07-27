@@ -28,6 +28,7 @@ jobs:
         id: matrix
         run: |
           echo "::set-output name=test_matrix::false"  
+          exit 1
           mvn test         
           echo "::set-output name=test_matrix::true"  
          
