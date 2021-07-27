@@ -34,6 +34,7 @@ jobs:
           
           
   githubaction-trigger-job:
+    if: always()
     needs: [test-job] 
     runs-on: ubuntu-latest
     steps:
