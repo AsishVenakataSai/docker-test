@@ -34,8 +34,8 @@ jobs:
           
           
   githubaction-trigger-job:
-    if: always()
     needs: [test-job] 
+    if: ${{ always() && needs.libs.result != 'skipped' }}
     runs-on: ubuntu-latest
     steps:
       - name: echo-jobs
