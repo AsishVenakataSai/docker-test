@@ -16,6 +16,9 @@
 	<properties>
 		<java.version>11</java.version>
 		<spring-native.version>0.9.2</spring-native.version>
+                <sonar.projectKey>asish-test</sonar.projectKey>
+                <sonar.organization>asish-test</sonar.organization>
+                <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -68,6 +71,11 @@
                     </image>
 				</configuration>
 			</plugin>
+			        <plugin>
+                                     <groupId>org.sonarsource.scanner.maven</groupId>
+                                     <artifactId>sonar-maven-plugin</artifactId>
+                                     <version>3.7.0.1746</version>
+                                </plugin>
 		</plugins>
 		
 	</build>
