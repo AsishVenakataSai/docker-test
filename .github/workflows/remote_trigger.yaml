@@ -1,0 +1,13 @@
+name: remote_trigger
+on:
+  repository_dispatch:
+    types: [ trail ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: MainBranch Checkout
+        uses: actions/checkout@v2
+      - name: Repository Description
+        run:  ls -la
