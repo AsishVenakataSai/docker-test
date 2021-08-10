@@ -1,7 +1,7 @@
 name: remote_trigger
 on:
   repository_dispatch:
-    types: [ trail ]
+    types: [trail]
 
 jobs:
   build:
