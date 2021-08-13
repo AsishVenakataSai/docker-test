@@ -24,40 +24,42 @@ jobs:
                 prBody: core.getInput("pr_body"),
                 destinationBranch: core.getInput("destination_branch")
               };
-
-              const base = main;
-              const source = AsishVenakataSai-patch-1;
-
-              const octokit = new github.GitHub(inputs.githubToken);
-
-              core.info(`Look up a pull request with source=${source} base=${base}`);
-              const { data: pulls } = await octokit.pulls.list({
-                owner: github.context.repo.owner,
-                repo: github.context.repo.repo,
-                base,
-                head: `${github.context.repo.owner}:${source}`
-              });
-
-              if (pulls.length == 0) {
-                core.info(`No such pull request: source=${source} base=${base}`);
-                return;
-              }
-
-              const { number } = pulls[0];
-              core.info(`Found pull request #${number}`);
-
-              const params = {
-                owner: github.context.repo.owner,
-                repo: github.context.repo.repo,
-                pull_number: number
-              };
-
-
-              params.body = github.context.payload.pull_request.body+" "+process.env.ENV_VAR_TEST;
-              core.info(`Updating with body $(params.body)`);
-              core.info(`Updating with title`);
-              params.title = github.context.payload.pull_request.title;
-              await octokit.pulls.update(params);
             }
-
             run();
+
+#              const base = main;
+#              const source = AsishVenakataSai-patch-1;
+
+#              const octokit = new github.GitHub(inputs.githubToken);
+
+#              core.info(`Look up a pull request with source=${source} base=${base}`);
+#              const { data: pulls } = await octokit.pulls.list({
+#                owner: github.context.repo.owner,
+#                repo: github.context.repo.repo,
+#                base,
+#                head: `${github.context.repo.owner}:${source}`
+#              });
+
+#              if (pulls.length == 0) {
+#                core.info(`No such pull request: source=${source} base=${base}`);
+#                return;
+#              }
+
+#              const { number } = pulls[0];
+#              core.info(`Found pull request #${number}`);
+
+#              const params = {
+#                owner: github.context.repo.owner,
+#                repo: github.context.repo.repo,
+#                pull_number: number
+#              };
+#
+
+#              params.body = github.context.payload.pull_request.body+" "+process.env.ENV_VAR_TEST;
+#              core.info(`Updating with body $(params.body)`);
+#              core.info(`Updating with title`);
+#              params.title = github.context.payload.pull_request.title;
+#              await octokit.pulls.update(params);
+#            }
+#
+#            run();
