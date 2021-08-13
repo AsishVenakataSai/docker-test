@@ -9,6 +9,7 @@ jobs:
       - uses: actions/github-script@v4
         env:
             ENV_VAR_TEST: "test"
+            TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -16,7 +17,7 @@ jobs:
               const base = "main";
               const source = "AsishVenakataSai-patch-1";
 
-              const octokit = new github.GitHub(github-token);
+              const octokit = new github.GitHub(process.env.TOKEN);
             }
             run();
 #              core.info(`Look up a pull request with source=${source} base=${base}`);
