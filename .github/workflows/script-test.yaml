@@ -16,6 +16,7 @@ jobs:
             async function run() {
               const base = "main";
               const source = "AsishVenakataSai-patch-1";
+              const octokit = new Octokit({ auth: process.env.TOKEN });
               core.info(`Look up a pull request with source=${source} base=${base}`);
               const { data: pulls } = await octokit.pulls.list({
                 owner: github.context.repo.owner,
