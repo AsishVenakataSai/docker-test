@@ -27,7 +27,7 @@ jobs:
               const base = "main";
               const source = "AsishVenakataSai-patch-1";
 
-              const octokit = new github.GitHub(inputs.githubToken);
+              const octokit = new github.Github(inputs.githubToken);
             }
             run();
 #              core.info(`Look up a pull request with source=${source} base=${base}`);
