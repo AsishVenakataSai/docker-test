@@ -16,8 +16,21 @@ jobs:
             async function run() {
               const base = "main";
               const source = "AsishVenakataSai-patch-1";
-              const octokit = new Octokit({ auth: process.env.TOKEN });
-              const octokit = new github.GitHub(process.env.TOKEN);
+              core.info(`Look up a pull request with source=${source} base=${base}`);
+              const { data: pulls } = await octokit.pulls.list({
+                owner: github.context.repo.owner,
+                repo: github.context.repo.repo,
+                base,
+                head: `${github.context.repo.owner}:${source}`
+              });
+              
+              if (pulls.length == 0) {
+                core.info(`No such pull request: source=${source} base=${base}`);
+                return;
+              }
+
+              const { number } = pulls[0];
+              core.info(`Found pull request #${number}`);
             }
             run();
 #              core.info(`Look up a pull request with source=${source} base=${base}`);
