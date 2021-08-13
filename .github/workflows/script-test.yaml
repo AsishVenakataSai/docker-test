@@ -11,7 +11,6 @@ jobs:
           env:
             ENV_VAR_TEST="test"
           script: |
-            const github = require("@actions/github");
             const core = require("@actions/core");
 
             async function run() {
