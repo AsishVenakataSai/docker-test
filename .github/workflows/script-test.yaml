@@ -1,6 +1,6 @@
 
 name: test-on-script
-on: pull_request
+on: push
 
 jobs:
   welcome:
