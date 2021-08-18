@@ -9,6 +9,9 @@ jobs:
   auto-commit-test:
     runs-on: ubuntu-latest
     steps:
+      - name: test
+        run: |
+          echo ${{ github.base_ref }}
       - name: MainBranch Checkout
         uses: actions/checkout@v2
         with:
