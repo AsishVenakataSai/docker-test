@@ -23,7 +23,7 @@ jobs:
         with:
           commit_message: Apply changes
           branch: main
-          file_pattern: README.md
+          file_pattern: Dockerfile
         env:
           GITHUB_TOKEN: ${{ secrets.NSLHB_TEST_TOKEN }} 
   build:
