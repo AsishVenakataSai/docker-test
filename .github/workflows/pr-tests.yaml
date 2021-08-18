@@ -6,9 +6,21 @@ on:
     types: [ labeled,unlabeled ]
 
 jobs: 
+  auto-commit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: MainBranch Checkout
+        uses: actions/checkout@v2
+      
+      - uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: README.md
+          contents: |
+            pr is merged
+          write-mode: append
+        
   build:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Step 1 - MainBranch Checkout
         uses: actions/checkout@v2
