@@ -62,7 +62,7 @@ jobs:
         with:
           message: |
             Maven Test Passes 
-            /remove-hold
+            /remove-hold 
           repo-token: ${{ secrets.NSLHB_TEST_TOKEN }}
           repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
           allow-repeats: true   
