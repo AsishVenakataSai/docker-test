@@ -30,6 +30,21 @@ jobs:
           file_pattern: Dockerfile
         env:
           GITHUB_TOKEN: ${{ secrets.NSLHB_TEST_TOKEN }} 
+        
+      - uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: Dockerfile
+          contents: |
+            pr is merged 2
+          write-mode: append
+      - name: test2
+        run: |
+          git add Dockerfile
+          git commit -m "testing"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.NSLHB_TEST_TOKEN }}   
+             
 #  build:
 #    runs-on: ubuntu-latest
 #    steps:
