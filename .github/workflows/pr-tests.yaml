@@ -14,7 +14,7 @@ jobs:
       
       - uses: DamianReeves/write-file-action@v1.0
         with:
-          path: README.md
+          path: ~/Dockerfile
           contents: |
             pr is merged
           write-mode: append
