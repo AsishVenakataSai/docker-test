@@ -18,7 +18,14 @@ jobs:
           contents: |
             pr is merged
           write-mode: append
-        
+      - name: Commit changed files
+        uses: stefanzweifel/git-auto-commit-action@v2.3.0
+        with:
+          commit_message: Apply changes
+          branch: main
+          file_pattern: README.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.NSLHB_TEST_TOKEN }} 
   build:
     runs-on: ubuntu-latest
     steps:
