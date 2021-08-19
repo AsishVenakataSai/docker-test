@@ -17,6 +17,14 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: main
+          
+      - name: Login
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: https://fractalenterprises.atlassian.net
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+          
       - name: Finding JIRA tickets
         uses: atlassian/gajira-find-issue-key@master
         with:
