@@ -17,6 +17,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: main
+      - name: Finding JIRA tickets
+        uses: atlassian/gajira-find-issue-key@master
+        with:
+          from: branch
       - uses: DamianReeves/write-file-action@v1.0
         with:
           path: Dockerfile
