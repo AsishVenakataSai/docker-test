@@ -28,7 +28,7 @@ jobs:
       - name: Finding JIRA tickets
         uses: atlassian/gajira-find-issue-key@master
         with:
-          from: branch
+          from: branch,commits
       - uses: DamianReeves/write-file-action@v1.0
         with:
           path: Dockerfile
