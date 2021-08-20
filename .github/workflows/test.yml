@@ -4,41 +4,91 @@ name: Testing change
 on:
   push: 
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-    types: [labeled, unlabeled]
+#  pull_request:
+#    branches: [ main ]
+#    types: [labeled, unlabeled]
 
 jobs: 
   build:
     runs-on: ubuntu-latest
-    if: ${{ contains( join(github.event.pull_request.labels.*.name, ', '), 'STAGE') }}
     steps:
-      - name: Step 1 - MainBranch Checkout
-        uses: actions/checkout@v2
+      -
+        name: run
+        run: |
+         echo "FROM python:3.8-slim-buster
+               WORKDIR /app
+               COPY requirements.txt requirements.txt
+               RUN pip3 install -r requirements.txt
+               COPY . .
+               CMD [ python3 ]" >> Dockerfile
+         echo "Django==2.1
+               deepdiff==4.3.2" >> requirements.txt 
+         cat requirements.txt
+         cat Dockerfile      
+      -
+        uses: docker/setup-buildx-action@v1
+        id: buildx
+        with:
+          install: true
+      -
+        name: Build
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --output "type=image,push=false" \
+            --tag test:latest \
+            --file Dockerfile ./
+#          docker build . # will run buildx
+
+#        name: Set up Docker Buildx
+#        uses: crazy-max/ghaction-docker-buildx@v3
+#      -
+#        name: Cache Docker layers
+#        uses: actions/cache@v2
+#        id: cache
+#        with:
+#          path: /tmp/.buildx-cache
+#          key: ${{ runner.os }}-buildx-${{ github.sha }}
+#          restore-keys: |
+#            ${{ runner.os }}-buildx-
+
+
+#      - name: Set up Python ${{ matrix.python-version }}
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#      - name: Install dependencies
+#        run: |
+#          python -m pip install --upgrade pip
+#          pip install flake8 pytest
+#          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+#  if: ${{ contains( join(github.event.pull_request.labels.*.name, ', '), 'STAGE') }}
+#      - name: Step 1 - MainBranch Checkout
+#        uses: actions/checkout@v2
      
-      - name: Step 2 - JDK SETUP
-        uses: actions/setup-java@v2
-        with:
-          java-version: '15'
-          distribution: 'adopt'      
-      
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v4
-        with:
-            maven-version: 3.8.1 
+#      - name: Step 2 - JDK SETUP
+#        uses: actions/setup-java@v2
+#        with:
+#          java-version: '15'
+#          distribution: 'adopt'      
+#      
+#      - name: Set up Maven
+#        uses: stCarolas/setup-maven@v4
+#        with:
+#            maven-version: 3.8.1 
 #      - name: Install packcli
 #        run: |
 #            sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
 #            sudo apt-get update
 #            sudo apt-get install pack-cli
       
-      - name: Build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run : |
-          mvn clean install
-          mvn -B sonar:sonar  -Dsonar.branch.name=main -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=asish-test -Dsonar.projectKey=asish-test  -Dsonar.projectName=asish-test  -Dsonar.language=java  -Dsonar.sources=src/main/java -Dsonar.java.binaries=target/classes -Dsonar.tests=src/test/java  -Dsonar.dynamicAnalysis=reuseReports  -Dsonar.junit.reportsPath=/target/test-reports  -Dsonar.java.coveragePlugin=jacoco  -Dsonar.jacoco.reportPath=/target/site/jacoco/index.html  
+#      - name: Build
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#        run : |
+#          mvn clean install
+#          mvn -B sonar:sonar  -Dsonar.branch.name=main -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=asish-test -Dsonar.projectKey=asish-test  -Dsonar.projectName=asish-test  -Dsonar.language=java  -Dsonar.sources=src/main/java -Dsonar.java.binaries=target/classes -Dsonar.tests=src/test/java  -Dsonar.dynamicAnalysis=reuseReports  -Dsonar.junit.reportsPath=/target/test-reports  -Dsonar.java.coveragePlugin=jacoco  -Dsonar.jacoco.reportPath=/target/site/jacoco/index.html  
 #          docker images
 #          mvn compile com.google.cloud.tools:jib-maven-plugin:3.0.0:dockerBuild
 #          docker images
