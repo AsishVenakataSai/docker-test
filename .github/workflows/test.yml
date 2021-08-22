@@ -54,7 +54,7 @@ jobs:
         name: Build
         run: |
           docker buildx build \
-            --platform linux/amd64\  
+            --platform linux/amd64 \  
             --output "type=image,push=false" \
             --tag test:latest \
             --file Dockerfile ./
