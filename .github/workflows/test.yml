@@ -15,14 +15,34 @@ jobs:
       -
         name: run
         run: |
-         echo "FROM python:3.8-slim-buster
-               WORKDIR /app
-               COPY requirements.txt requirements.txt
-               RUN pip3 install -r requirements.txt
-               COPY . .
-               CMD [ python3 ]" >> Dockerfile
-         echo "Django==2.1
-               deepdiff==4.3.2" >> requirements.txt 
+         echo "
+         #FROM tiangolo/uvicorn-gunicorn:python3.8
+         FROM python:3.8
+         RUN apt-get update -y
+         RUN apt-get install -y build-essential libzbar-dev
+         COPY requirements.txt requirements.txt
+         RUN pip3 install -r requirements.txt 
+         #COPY requirements.txt code/common_functionalities/
+         #COPY utility code/vcs/
+         #WORKDIR code/vcs/
+         #RUN pip3 install -r requirements.txt
+         RUN chown 1000:1000 ./
+         USER 1000
+         CMD ["python3","manage.py","runserver","--settings=nsl_vcs.settings.docker","0.0.0.0:7013"]" >> Dockerfile
+         echo "
+         pyqrcode
+         python-barcode
+         pyzbar
+         pypng
+         pillow
+         boto3==1.11.9
+         botocore==1.14.9
+         zipp==0.6.0
+         pika==1.1.0
+         rabbitpy
+         django-rest-swagger==2.1.2
+         djangorestframework==3.9.2
+         Django==2.1" >> requirements.txt 
          cat requirements.txt
          cat Dockerfile      
       -
@@ -34,7 +54,7 @@ jobs:
         name: Build
         run: |
           docker buildx build \
-            --platform linux/amd64,linux/arm64 \
+            --platform linux/amd64,linux/arm64/v8 \
             --output "type=image,push=false" \
             --tag test:latest \
             --file Dockerfile ./
