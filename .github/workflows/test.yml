@@ -23,10 +23,6 @@ jobs:
          RUN apt-get install -y build-essential libzbar-dev
          COPY requirements.txt requirements.txt
          RUN pip3 install -r requirements.txt 
-         #COPY requirements.txt code/common_functionalities/
-         #COPY utility code/vcs/
-         #WORKDIR code/vcs/
-         #RUN pip3 install -r requirements.txt
          RUN chown 1000:1000 ./
          USER 1000
          CMD ["python3","manage.py","runserver","--settings=nsl_vcs.settings.docker","0.0.0.0:7013"]" >> Dockerfile
@@ -59,7 +55,7 @@ jobs:
             --output "type=image,push=false" \
             --tag test:latest \
             --file Dockerfile ./
-# ,linux/arm64/v8 \            
+      
 #          docker build . # will run buildx
 
 #        name: Set up Docker Buildx
