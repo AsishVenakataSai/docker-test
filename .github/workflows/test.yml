@@ -1,6 +1,7 @@
 
 name: Testing change 
-
+env:
+  SERVER: production
 on:
   push: 
     branches: [ main ]
@@ -12,6 +13,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: run1
+        run: |
+          echo ${{ SERVER }}
       -
         name: run
         run: |
