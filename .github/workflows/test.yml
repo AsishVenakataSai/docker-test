@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: run1
         run: |
-          echo ${{ SERVER }}
+          echo ${{ env.SERVER }}
       -
         name: run
         run: |
